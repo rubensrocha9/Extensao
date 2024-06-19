@@ -2,20 +2,38 @@ import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
 import {
   AppstoreOutline,
   BankOutline,
+  CloseOutline,
   DashboardOutline,
   DeleteOutline,
+  EyeInvisibleOutline,
+  EyeOutline,
   FormOutline,
   IdcardOutline,
+  LockOutline,
+  LogoutOutline,
+  MailOutline,
   MenuFoldOutline,
   MenuUnfoldOutline,
   PlusCircleFill,
   PlusCircleOutline,
   PlusCircleTwoTone,
+  PlusOutline,
+  SearchOutline,
+  TeamOutline,
   UserOutline
 } from '@ant-design/icons-angular/icons';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 const icons = [
+  MailOutline,
+  EyeInvisibleOutline,
+  EyeOutline,
+  LogoutOutline,
+  LockOutline,
+  CloseOutline,
+  SearchOutline,
+  TeamOutline,
+  PlusOutline,
   MenuFoldOutline,
   MenuUnfoldOutline,
   DashboardOutline,

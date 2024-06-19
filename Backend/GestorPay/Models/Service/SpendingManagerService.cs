@@ -166,7 +166,7 @@ namespace GestorPay.Models.Service
                 {
                     var spendingEmployee = new SpendingManager();
                     spendingEmployee.CompanyId = companyId;
-                    spendingEmployee.Name = "Funcinários";
+                    spendingEmployee.Name = "Funcionários";
                     spendingEmployee.Amount = totalAmount;
                     spendingEmployee.Status = SpendingManagerStatusType.Active;
                     spendingEmployee.IsExpenseEmployee = true;

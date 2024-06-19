@@ -7,7 +7,7 @@ namespace GestorPay.Enumerator
         [Description("Ativo")]
         Active = 1,
 
-        [Description("Desligada")]
+        [Description("Desativado")]
         Deleted = 2
     }
 }

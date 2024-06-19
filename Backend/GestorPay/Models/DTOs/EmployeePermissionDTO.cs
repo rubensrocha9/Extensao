@@ -7,6 +7,7 @@ namespace GestorPay.Models.DTOs
     {
         public int Id { get; set; }
         public int CompanyId { get; set; }
+        public int PositionId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public UserRoleType Role { get; set; }

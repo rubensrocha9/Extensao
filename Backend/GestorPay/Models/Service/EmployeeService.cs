@@ -58,6 +58,7 @@ namespace GestorPay.Models.Service
                     Gender = p.Gender,
                     Role = p.Role,
                     Status = p.Status,
+                    PositionName = p.EmployeePosition.PositionName,
                     CompanyTime = p.CompanyTime,
                     CreationDate = p.CreationDate,
                     Attachment = p.Attachment != null ? new AttachmentDTO
@@ -97,6 +98,7 @@ namespace GestorPay.Models.Service
                     EntryDate = p.EntryDate,
                     DepartureDate = p.DepartureDate,
                     DocumentNumber = p.DocumentNumber,
+                    PhoneNumber = p.PhoneNumber,
                     Role = p.Role,
                     Gender = p.Gender,
                     Status = p.Status,
@@ -160,6 +162,7 @@ namespace GestorPay.Models.Service
                 EntryDate = createEmployee.Employee.EntryDate,
                 DepartureDate = createEmployee.Employee.DepartureDate,
                 DocumentNumber = createEmployee.Employee.DocumentNumber,
+                PhoneNumber = createEmployee.Employee.PhoneNumber,
                 Gender = createEmployee.Employee.Gender,
                 Role = UserRoleType.User,
                 IsRemoved = false,
@@ -211,6 +214,7 @@ namespace GestorPay.Models.Service
             employee.Name = updateEmployee.Employee.Name;
             employee.BirthDate = updateEmployee.Employee.BirthDate;
             employee.DocumentNumber = updateEmployee.Employee.DocumentNumber;
+            employee.PhoneNumber = updateEmployee.Employee.PhoneNumber;
             employee.Gender = updateEmployee.Employee.Gender;
 
             if (userRole == UserRoleType.Admin)

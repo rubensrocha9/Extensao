@@ -17,7 +17,7 @@ namespace GestorPay.Controllers
         }
 
         [HttpGet]
-        [Route("api/company/{companyId}/employee-position")]
+        [Route("api/company/{companyId}/position")]
         public async Task<IActionResult> GetEmployeePosition(int companyId, [FromQuery] PageParams pageParams)
         {
             var position = await _positionService.GetEmployeePositionsAsync(companyId, pageParams);
@@ -27,21 +27,21 @@ namespace GestorPay.Controllers
         }
 
         [HttpGet]
-        [Route("api/company/{companyId}/list/employee-position")]
+        [Route("api/company/{companyId}/list/position")]
         public async Task<IActionResult> GetEmployeePositionAsync(int companyId)
         {
             return Ok(await _positionService.GetListPositionsAsync(companyId));
         }
 
         [HttpGet]
-        [Route("api/company/{companyId}/employee-position/{id}")]
+        [Route("api/company/{companyId}/position/{id}")]
         public async Task<IActionResult> GetById(int companyId, int id)
         {
             return Ok(await _positionService.GetEmployeePositionByIdAsync(companyId, id));
         }
 
         [HttpPost]
-        [Route("api/company/{companyId}/employee-position")]
+        [Route("api/company/{companyId}/position")]
         public async Task<IActionResult> PostEmployeePosition(int companyId, [FromBody] EmployeePositionDTO createPosition)
         {
             await _positionService.CreateEmployeePositionAsync(companyId, createPosition);
@@ -49,7 +49,7 @@ namespace GestorPay.Controllers
         }
 
         [HttpPut]
-        [Route("api/company/{companyId}/employee-position/{id}/update")]
+        [Route("api/company/{companyId}/position/{id}/update")]
         public async Task<IActionResult> PutEmployeePosition(int companyId, int id, [FromBody] EmployeePositionDTO updatePosition)
         {
             await _positionService.UpdateEmployeePositionAsync(companyId, id, updatePosition);
@@ -57,8 +57,8 @@ namespace GestorPay.Controllers
         }
 
         [HttpDelete]
-        [Route("api/company/{companyId}/employee-position/{id}/delete")]
-        public async Task<IActionResult> DeleteCargo(int companyId, int id)
+        [Route("api/company/{companyId}/position/{id}/delete")]
+        public async Task<IActionResult> DeletePosition(int companyId, int id)
         {
             await _positionService.DeleteEmployeePositionAsync(companyId, id);
             return Ok();

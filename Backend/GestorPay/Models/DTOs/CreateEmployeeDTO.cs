@@ -14,6 +14,7 @@ namespace GestorPay.Models.DTOs
         public DateTime EntryDate { get; set; }
         public DateTime? DepartureDate { get; set; }
         public string DocumentNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public GenderStatusType Gender { get; set; }
         public EmployeeStatusType? Status { get; set; }
     }

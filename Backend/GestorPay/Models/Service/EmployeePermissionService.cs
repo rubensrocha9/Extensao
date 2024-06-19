@@ -32,10 +32,21 @@ namespace GestorPay.Models.Service
                     Name = p.Name,
                     Email = p.Email,
                     Role = p.Role,
+                    DepartureDate = p.DepartureDate,
+                    EntryDate = p.EntryDate,
+                    CompanyTime = p.CompanyTime,
+                    EmployeePosition = p.EmployeePosition.PositionName,
                     CreationDate = p.CreationDate
                 });
 
-            return await PageList<EmployeePermissionDTO>.CreateAsync(query, pageParams.PageNumber, pageParams.pageSize);
+            var paginatedList = await PageList<EmployeePermissionDTO>.CreateAsync(query, pageParams.PageNumber, pageParams.pageSize);
+
+            foreach (var employee in paginatedList)
+            {
+                Calculate(employee);
+            }
+
+            return paginatedList;
         }
 
         public async Task<EmployeePermissionDTO> GetEmployeesPermissionsByIdAsync(int companyId, int employeeId)
