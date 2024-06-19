@@ -13,7 +13,7 @@ namespace GestorPay.Controllers
         }
 
         [HttpGet]
-        [Route("api/company/{companyId}/employee/dashboard")]
+        [Route("api/company/{companyId}/dashboard")]
         public async Task<IActionResult> GetEmployeeDashboard(int companyId)
         {
             return Ok(await _dashboardService.GetEmployeeDashboardAsync(companyId));
