@@ -1,22 +1,18 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import format from 'date-fns/format';
 import { ptBR } from 'date-fns/locale';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { filter } from 'rxjs';
 import { AuthService } from './core/service/auth.service';
-import { LoaderComponent } from "./shared/components/loader/loader.component";
+import { StorageService } from './core/service/storage.service';
+import { SharedModuleModule } from './shared/shared-module/shared-module.module';
 
 @Component({
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    imports: [CommonModule, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, RouterLink, LoaderComponent, NzButtonModule]
+    imports: [ RouterOutlet, RouterLink, SharedModuleModule]
 })
 export class AppComponent implements OnInit {
   isCollapsed = false;
@@ -30,23 +26,47 @@ export class AppComponent implements OnInit {
   constructor (
     private router: Router,
     private authService: AuthService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private storageService: StorageService,
   ) {}
 
   ngOnInit(): void {
+
+    this.storageService.getCompanyFromStore().subscribe(companyId => {
+      if (!isNaN(parseInt(companyId, 10))) {
+        this.companyId = parseInt(companyId, 10);
+      }
+    });
+    this.storageService.getIsCompanyFromStore().subscribe(company => {
+      if (company === 'True') {
+        this.isCompany = true;
+      } else if (company === 'False') {
+        this.isCompany = false;
+      }
+    });
+    this.storageService.getRoleFromStore().subscribe(role => {
+      if (role === 'Admin') {
+        this.isAdmin = true;
+      } else if (role === 'Usuário') {
+        this.isAdmin = false;
+      }
+    });
+
+
     this.currentDate = format(new Date(), "dd 'de' MMMM 'de' yyyy", { locale: ptBR });
 
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      // Verificar se a URL contém "login" ou "not-found"
+
       const currentRoute = this.activatedRoute.snapshot.firstChild?.routeConfig?.path;
       this.isHideSideBar =
         currentRoute === 'login' ||
         currentRoute === 'not-found' ||
         currentRoute === 'register-company' ||
         currentRoute === 'confirm-email' ||
-        currentRoute === 'register-employee';
+        currentRoute === 'register-employee' ||
+        currentRoute === 'reset-password';
     });
   }
 

@@ -16,6 +16,7 @@ export interface Employee {
   departureDate?: Date;
   documentNumber: string;
   phoneNumber: string;
+  countryCode: string;
   gender: GenderStatusType;
   role: RoleType;
   status: EmployeeStatus;
@@ -38,7 +39,7 @@ export interface EmployeeAddress {
   street: string;
   homeNumber: string;
   complement?: string;
-  district?: string;
+  district: string;
   city: string;
   state: string;
   country: string;
@@ -58,6 +59,7 @@ export interface CreateEmployee {
   documentNumber: string;
   gender: GenderStatusType;
   phoneNumber: string;
+  countryCode: string;
 }
 
 export interface EmployeePermission {
@@ -79,4 +81,11 @@ export interface EmployeePermission {
 
 export interface EmployeeRole {
   userRole: RoleType;
+}
+
+export interface Feedback {
+  employeeId: number;
+  companyId: number;
+  feedback: string;
+  creationDate?: Date;
 }

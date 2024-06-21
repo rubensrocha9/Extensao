@@ -32,3 +32,9 @@ export interface ConfirmEmail {
   employeeId: number;
   emailToken: string;
 }
+
+export interface SendResetPassword {
+  email?: string;
+  emailToken?: string;
+  newPassword?: string;
+}

@@ -22,5 +22,6 @@
         StrongPassword = 18,
         DocumentsRegisterEmployeeNotMatch = 19,
         AuthEmpoyeeAlreadyRegistred = 20,
+        FileNotAccpeted = 21,
     }
 }

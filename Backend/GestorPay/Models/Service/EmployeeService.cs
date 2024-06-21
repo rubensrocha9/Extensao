@@ -99,6 +99,7 @@ namespace GestorPay.Models.Service
                     DepartureDate = p.DepartureDate,
                     DocumentNumber = p.DocumentNumber,
                     PhoneNumber = p.PhoneNumber,
+                    CountryCode = p.CountryCode,
                     Role = p.Role,
                     Gender = p.Gender,
                     Status = p.Status,
@@ -163,6 +164,7 @@ namespace GestorPay.Models.Service
                 DepartureDate = createEmployee.Employee.DepartureDate,
                 DocumentNumber = createEmployee.Employee.DocumentNumber,
                 PhoneNumber = createEmployee.Employee.PhoneNumber,
+                CountryCode = createEmployee.Employee.CountryCode,
                 Gender = createEmployee.Employee.Gender,
                 Role = UserRoleType.User,
                 IsRemoved = false,
@@ -215,6 +217,7 @@ namespace GestorPay.Models.Service
             employee.BirthDate = updateEmployee.Employee.BirthDate;
             employee.DocumentNumber = updateEmployee.Employee.DocumentNumber;
             employee.PhoneNumber = updateEmployee.Employee.PhoneNumber;
+            employee.CountryCode = updateEmployee.Employee.CountryCode;
             employee.Gender = updateEmployee.Employee.Gender;
 
             if (userRole == UserRoleType.Admin)

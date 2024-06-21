@@ -109,6 +109,12 @@ namespace GestorPay.Models.Service
 
         public async Task<AttachmentDTO> EmployeeAttachmentAsync(int id, IFormFile image)
         {
+            if (image.ContentType != "image/png" && image.ContentType != "image/jpeg" && image.ContentType != "image/jpg")
+            {
+                var validationMessage = _notificationService.GetValidationMessage(ValidationType.FileNotAccpeted, HttpStatusCode.NotFound);
+                throw new CustomException(validationMessage.Message, validationMessage.StatusCode);
+            }
+
             var attachment = await _repository.Select<Attachment>()
                 .Where(p => p.EmployeeId == id && !p.IsRemoved)
                 .FirstOrDefaultAsync();

@@ -156,6 +156,9 @@
   <data name="EmployeePositionNotFound" xml:space="preserve">
     <value>Cargo não encontrado.</value>
   </data>
+  <data name="FileNotAccpeted" xml:space="preserve">
+    <value>O tipo de arquivo enviado não é permitido.</value>
+  </data>
   <data name="PositionInUse" xml:space="preserve">
     <value>Cargo em uso, se deseja remover mude o cargo do funcionário.</value>
   </data>

@@ -12,6 +12,7 @@
         <h1 style="font-size: 20px;">GestorPay</h1>
       </div>
       <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+        @if (isAdmin) {
         <li nz-menu-item nzMatchRouter>
           <a routerLink="dashboard" routerLinkActive="active">
             <span nz-icon nzType="appstore"></span>
@@ -42,6 +43,28 @@
             <span>Permissão</span>
           </a>
         </li>
+        @if (isCompany) {
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="company-profile" routerLinkActive="active">
+              <span nz-icon nzType="user"></span>
+              <span>Perfil</span>
+            </a>
+          </li>
+        }
+        <li nz-menu-item nzMatchRouter>
+          <a routerLink="employee-profile" routerLinkActive="active">
+            <span nz-icon nzType="user"></span>
+            <span>Perfil</span>
+          </a>
+        </li>
+      } @else {
+        <li nz-menu-item nzMatchRouter>
+          <a routerLink="employee-profile" routerLinkActive="active">
+            <span nz-icon nzType="user"></span>
+            <span>Perfil</span>
+          </a>
+        </li>
+      }
       </ul>
       <ul nz-menu nzTheme="dark" nzMode="inline" class="float-btm">
         <li nz-menu-item nzMatchRouter>

@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { take } from 'rxjs';
 import { AuthService } from '../../core/service/auth.service';
 import { Register } from '../../shared/models/auth';
+import { HelperService } from '../../shared/service/helper.service';
 import { LoaderService } from '../../shared/service/loader.service';
 import { ModalService } from '../../shared/service/modal.service';
 import { SharedModuleModule } from '../../shared/shared-module/shared-module.module';
@@ -27,7 +28,6 @@ export class CompanyRegisterComponent {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private message: NzMessageService,
-    private loaderService: LoaderService,
     private notificationService: ModalService
   )
   {
@@ -49,7 +49,8 @@ export class CompanyRegisterComponent {
       documentNumber: formValues.documentNumber
     }
 
-    LoaderService.toggle({ show: true });
+    if (HelperService.validateForm(this.registerForm)) {
+      LoaderService.toggle({ show: true });
     this.authService.signUpCompany(register).pipe(take(1)).subscribe(
       data => {
         LoaderService.toggle({ show: false });
@@ -59,6 +60,9 @@ export class CompanyRegisterComponent {
         LoaderService.toggle({ show: false });
         this.notificationService.modalLoadDataError(error);
     });
+    } else {
+      this.message.warning('Existem campos a serem preenchidos.', { nzDuration: 3000 });
+    }
   }
 
   onLogin() {

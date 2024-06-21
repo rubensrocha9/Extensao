@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { take } from 'rxjs';
 import { AuthService } from '../../core/service/auth.service';
 import { StorageService } from '../../core/service/storage.service';
 import { LoaderService } from '../../shared/service/loader.service';
 import { ModalService } from '../../shared/service/modal.service';
 import { SharedModuleModule } from '../../shared/shared-module/shared-module.module';
+import { ResetPasswordComponent } from './../../shared/components/reset-password/reset-password.component';
 import { Login } from './../../shared/models/auth';
 
 @Component({
@@ -23,11 +25,12 @@ export class LoginComponent {
 
   constructor(
     private router: Router,
+    private modal: NzModalService,
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private modalService: ModalService,
-    private loaderService: LoaderService,
     private storageService: StorageService,
+    private _viewContainerRef: ViewContainerRef,
   ) {
     this.loginForm = this.formBuilder.group({
       email: [null , [Validators.required, Validators.email]],
@@ -73,8 +76,21 @@ export class LoginComponent {
     });
   }
 
-  onRegister() {
+  onRegister(): void {
     this.router.navigateByUrl('register-company');
+  }
+
+  onResetPassword(): void {
+    this.modal.create({
+      nzContent: ResetPasswordComponent,
+      nzViewContainerRef: this._viewContainerRef,
+      nzFooter: null,
+      nzWidth: '30%',
+			nzStyle: {
+				'top': '24px',
+				'min-width': '600px',
+			}
+    });
   }
 
 }

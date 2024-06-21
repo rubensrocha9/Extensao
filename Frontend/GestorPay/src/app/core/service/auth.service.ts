@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
-import { ConfirmEmail, Register, RegisterEmployee } from '../../shared/models/auth';
+import { ConfirmEmail, Register, RegisterEmployee, SendResetPassword } from '../../shared/models/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -33,12 +33,20 @@ export class AuthService {
     return this.http.post<RegisterEmployee>(`${this.api}/company/${companyId}/employee/${id}/register`, user);
   }
 
-  checkEmail(email: string): Observable<any> {
-    return this.http.get(`${this.api}/check-email-availability/${email}`);
+  sendResetPassword(email: SendResetPassword): Observable<SendResetPassword> {
+    return this.http.post<SendResetPassword>(`${this.api}/send/reset-password`, email);
+  }
+
+  resetPassword(email: SendResetPassword): Observable<SendResetPassword> {
+    return this.http.post<SendResetPassword>(`${this.api}/reset-password`, email);
   }
 
   confirmEmail(confirmEmail: ConfirmEmail): Observable<ConfirmEmail>{
     return this.http.post<ConfirmEmail>(`${this.api}/confirm-email`, confirmEmail);
+  }
+
+  confirmEmployeeEmail(confirmEmail: ConfirmEmail): Observable<ConfirmEmail>{
+    return this.http.post<ConfirmEmail>(`${this.api}/company/employee/confirm-email`, confirmEmail);
   }
 
   signIn(user: any): Observable<any>{

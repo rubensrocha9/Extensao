@@ -36,7 +36,7 @@
           <nz-form-label nzRequired nzFor="documentNumber">Documento</nz-form-label>
           <nz-form-control nzErrorTip="Por favor informe o documento do funcionário">
             <nz-input-group>
-              <input type="text" nz-input formControlName="documentNumber" mask="000.000.000-00||00.000.000.0000-00" [dropSpecialCharacters]="true" placeholder="CPF/CNPJ" />
+              <input type="text" nz-input formControlName="documentNumber" mask="000.000.000-00||00.000.000/0000-00" [dropSpecialCharacters]="true" placeholder="CPF/CNPJ" />
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -200,7 +200,7 @@
       <div nz-col nzSpan="6">
         <nz-form-item>
           <nz-form-label nzRequired nzFor="country">País</nz-form-label>
-          <nz-form-control nzErrorTip="Por favor informe o pais do funcionário">
+          <nz-form-control nzErrorTip="Por favor informe o país do funcionário">
             <nz-input-group>
               <input type="text" nz-input formControlName="country" placeholder="Pais" />
             </nz-input-group>

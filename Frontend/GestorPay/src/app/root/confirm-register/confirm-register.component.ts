@@ -4,7 +4,6 @@ import { NzResultStatusType } from 'ng-zorro-antd/result';
 import { AuthService } from '../../core/service/auth.service';
 import { ConfirmEmail } from '../../shared/models/auth';
 import { LoaderService } from '../../shared/service/loader.service';
-import { ModalService } from '../../shared/service/modal.service';
 import { SharedModuleModule } from '../../shared/shared-module/shared-module.module';
 
 @Component({
@@ -26,8 +25,6 @@ export class ConfirmRegisterComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private modalService: ModalService,
-    private loaderService: LoaderService,
     private activatedRoute: ActivatedRoute,
    ) {}
 
@@ -53,25 +50,47 @@ export class ConfirmRegisterComponent implements OnInit {
       employeeId: this.employeeId ?? 0
     }
 
-    LoaderService.toggle({ show: true });
-    this.authService.confirmEmail(confirm).subscribe(
-      data => {
-        LoaderService.toggle({ show: false });
-        this.type = 'success';
-        this.title = 'Sucesso';
-        this.content = 'Cadastro confirmado com sucesso, para voltar, clique no botão a seguir ou espere 5 segundos que será redirecionado para a tela de login.';
-      },error => {
-        LoaderService.toggle({ show: false });
-        if (error.error.statusCode === 409) {
-          this.type = 'info';
-          this.title = 'Atenção';
-          this.content = 'Esse cadastro já foi confirmado, para voltar, clique no botão a seguir ou espere 5 segundos que será redirecionado para a tela de login.';
-        } else {
-          this.type = 'error';
-          this.title = 'Atenção';
-          this.content = 'Esse cadastro já foi confirmado, para voltar, clique no botão a seguir ou espere 5 segundos que será redirecionado para a tela de login.';
-        }
+    if (this.employeeId === 0) {
+      LoaderService.toggle({ show: true });
+      this.authService.confirmEmail(confirm).subscribe(
+        data => {
+          LoaderService.toggle({ show: false });
+          this.type = 'success';
+          this.title = 'Sucesso';
+          this.content = 'Cadastro confirmado com sucesso, para voltar, clique no botão a seguir ou espere 5 segundos que será redirecionado para a tela de login.';
+        },error => {
+          LoaderService.toggle({ show: false });
+          if (error.error.statusCode === 409) {
+            this.type = 'info';
+            this.title = 'Atenção';
+            this.content = 'Esse cadastro já foi confirmado, para voltar, clique no botão a seguir ou espere 5 segundos que será redirecionado para a tela de login.';
+          } else {
+            this.type = 'error';
+            this.title = 'Atenção';
+            this.content = 'Esse cadastro já foi confirmado, para voltar, clique no botão a seguir ou espere 5 segundos que será redirecionado para a tela de login.';
+          }
       });
+    } else if (this.employeeId > 0) {
+      this.authService.confirmEmployeeEmail(confirm).subscribe(
+        data => {
+          LoaderService.toggle({ show: false });
+          this.type = 'success';
+          this.title = 'Sucesso';
+          this.content = 'Cadastro confirmado com sucesso, para voltar, clique no botão a seguir ou espere 5 segundos que será redirecionado para a tela de login.';
+        },error => {
+          LoaderService.toggle({ show: false });
+          if (error.error.statusCode === 409) {
+            this.type = 'info';
+            this.title = 'Atenção';
+            this.content = 'Esse cadastro já foi confirmado, para voltar, clique no botão a seguir ou espere 5 segundos que será redirecionado para a tela de login.';
+          } else {
+            this.type = 'error';
+            this.title = 'Atenção';
+            this.content = 'Esse cadastro já foi confirmado, para voltar, clique no botão a seguir ou espere 5 segundos que será redirecionado para a tela de login.';
+          }
+      });
+    }
+
   }
 
   redirectTimeRoute() {

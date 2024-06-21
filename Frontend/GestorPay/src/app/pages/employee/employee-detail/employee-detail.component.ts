@@ -49,6 +49,7 @@ export class EmployeeDetailComponent implements OnInit {
       gender: [null , [Validators.required]],
       positionId: [null , [Validators.required]],
       phoneNumber: [null , [Validators.required]],
+      countryCode: [null , [Validators.required]],
       email: [null , [Validators.required, Validators.email]],
       entryDate: [null , [Validators.required]],
       departureDate: [null],
@@ -101,7 +102,8 @@ export class EmployeeDetailComponent implements OnInit {
           departureDate: data.departureDate,
           documentNumber: data.documentNumber,
           gender: data.gender,
-          phoneNumber: data.phoneNumber
+          phoneNumber: data.phoneNumber,
+          countryCode: data.countryCode
         });
 
         this.formAddress.patchValue({

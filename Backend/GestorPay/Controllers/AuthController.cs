@@ -67,7 +67,7 @@ namespace GestorPay.Controllers
             return Ok();
         }
 
-        [HttpPost("api/reset-email")]
+        [HttpPost("api/reset-password")]
         public async Task<IActionResult> ResetPassword(ResetPasswordDTO resetPassword)
         {
             await _authService.ResetPassword(resetPassword);

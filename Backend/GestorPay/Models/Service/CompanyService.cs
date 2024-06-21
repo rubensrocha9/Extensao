@@ -27,6 +27,7 @@ namespace GestorPay.Models.Service
                 {
                     Name = p.Name,
                     DocumentNumber = p.DocumentNumber,
+                    PhoneNumber = p.PhoneNumber,
                     Email = p.Email,
                     IsEmailConfirmed = p.IsEmailConfirmed,
                     Role = p.Role,
@@ -69,6 +70,7 @@ namespace GestorPay.Models.Service
             company.Name = updateCompany.Name;
             company.DocumentNumber = updateCompany.DocumentNumber;
             company.Email = updateCompany.Email;
+            company.PhoneNumber = updateCompany.PhoneNumber;
 
             if (company.Address != null)
             {
@@ -101,6 +103,12 @@ namespace GestorPay.Models.Service
 
         public async Task<AttachmentDTO> CompanyAttachmentAsync(int id, IFormFile image)
         {
+            if (image.ContentType != "image/png" && image.ContentType != "image/jpeg" && image.ContentType != "image/jpg")
+            {
+                var validationMessage = _notificationService.GetValidationMessage(ValidationType.FileNotAccpeted, HttpStatusCode.NotFound);
+                throw new CustomException(validationMessage.Message, validationMessage.StatusCode);
+            }
+
             var attachment = await _repository.Select<Attachment>()
                 .Where(p => p.CompanyId == id && !p.IsRemoved)
                 .FirstOrDefaultAsync();
