@@ -123,6 +123,8 @@ namespace GestorPay.Models.Service
                 throw new CustomException(validationMessage.Message, validationMessage.StatusCode);
             }
 
+            Calculate(employee);
+
             return employee;
         }
 
@@ -228,6 +230,15 @@ namespace GestorPay.Models.Service
                 employee.PositionId = updateEmployee.Employee.PositionId;
                 employee.Status = updateEmployee.Employee.Status ?? employee.Status;
                 employee.Email = updateEmployee.Employee.Email;
+
+                if (updateEmployee.Employee.DepartureDate == null)
+                {
+                    employee.Status = EmployeeStatusType.Active;
+                }
+                else
+                {
+                    employee.Status = EmployeeStatusType.Disconnected;
+                }
             }
 
             //Address

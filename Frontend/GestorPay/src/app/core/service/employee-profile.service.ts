@@ -18,8 +18,8 @@ export class EmployeeProfileService {
     return this.http.get<AttachmentDTO>(`${this.api}/company/employee-profile/${id}/file`)
   }
 
-  getFeedbackHistory(companyId: number, id: number): Observable<Feedback>{
-    return this.http.get<Feedback>(`${this.api}/company/${companyId}/employee/${id}/feedback`)
+  getFeedbackHistory(companyId: number, id: number): Observable<Feedback[]>{
+    return this.http.get<Feedback[]>(`${this.api}/company/${companyId}/employee/${id}/feedback`)
   }
 
   createFeedback(companyId: number, id: number, feedback: Feedback): Observable<Feedback>{

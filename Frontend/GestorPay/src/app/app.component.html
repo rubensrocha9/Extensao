@@ -50,13 +50,14 @@
               <span>Perfil</span>
             </a>
           </li>
+        } @else {
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="employee-profile" routerLinkActive="active">
+              <span nz-icon nzType="user"></span>
+              <span>Perfil</span>
+            </a>
+          </li>
         }
-        <li nz-menu-item nzMatchRouter>
-          <a routerLink="employee-profile" routerLinkActive="active">
-            <span nz-icon nzType="user"></span>
-            <span>Perfil</span>
-          </a>
-        </li>
       } @else {
         <li nz-menu-item nzMatchRouter>
           <a routerLink="employee-profile" routerLinkActive="active">

@@ -25,7 +25,8 @@ export const routes: Routes = [
       { path: 'employee', data: { role: ['Admin'] }, loadChildren: () => import('./pages/employee/employee.routes').then(m => m.EMPLOYEE_ROUTES) },
       { path: 'permission', data: { role: ['Admin'] }, loadChildren: () => import('./pages/permission/permission.routes').then(m => m.PERMISSION_ROUTES) },
       { path: 'company-profile', data: { role: ['Admin'] }, loadChildren: () => import('./pages/company-profile/company-profile.routes').then(m => m.COMPANYPROFILE_ROUTES) },
-      { path: 'employee-profile', data: { role: ['Admin', 'Usuário'] }, loadChildren: () => import('./pages/employee-profile/employee-profile.routes').then(m => m.EMPLOYEEPROFILE_ROUTES) },
+      { path: 'employee-profile', data: { role: ['Admin', 'Usuário'] }, loadChildren: () => import('./pages/employee-profile/employee-profile.routes').then(m => m.PROFILE_ROUTES) },
+
     ]
   },
 

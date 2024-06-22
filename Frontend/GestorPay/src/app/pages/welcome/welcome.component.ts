@@ -5,6 +5,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { take } from 'rxjs';
 import { DashboardService } from '../../core/service/dashboard.service';
+import { StorageService } from '../../core/service/storage.service';
+import { LoaderService } from '../../shared/service/loader.service';
+import { ModalService } from '../../shared/service/modal.service';
 
 @Component({
   selector: 'app-welcome',
@@ -30,18 +33,27 @@ export class WelcomeComponent implements OnInit {
   companyId: number = 0;
 
   constructor(
+    private storageService: StorageService,
+    private notificationService: ModalService,
     private dashboardService: DashboardService,
   ) { }
 
   ngOnInit() {
-    if (this.companyId > 0) {
-      this.getDashboard();
-    }
+    this.storageService.getCompanyFromStore().subscribe(companyId => {
+      if (!isNaN(parseInt(companyId, 10))) {
+        this.companyId = parseInt(companyId, 10);
+        if (this.companyId > 0) {
+          this.getDashboard();
+        }
+      }
+    });
   }
 
   getDashboard(): void {
+    LoaderService.toggle({ show: true });
     this.dashboardService.dashboard(1).pipe(take(1)).subscribe(
       data => {
+        LoaderService.toggle({ show: false });
         this.employeeWithHighestAmountName = data.employeeWithHighestAmountName;
         this.employeeWithHighestAmount = data.employeeWithHighestAmount;
         this.employeeWithHighestAmountPosition = data.employeeWithHighestAmountPosition;
@@ -55,8 +67,9 @@ export class WelcomeComponent implements OnInit {
         this.accumulatedAmount = data.accumulatedAmount;
 
       }, error => {
-
-      });
+        LoaderService.toggle({ show: false });
+        this.notificationService.modalLoadDataError(error);
+    });
   }
 
 }

@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree>
   {
-    const role = route.firstChild?.data['role']
+    const role = route.firstChild?.data['role'];
     return this.checkAccess(role);
   }
 
@@ -27,7 +27,6 @@ export class AuthGuard implements CanActivate {
     if (this.authService.userAuthenticated()) {
       const tokenPayload = this.authService.decodedToken();
       const userRole = tokenPayload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-
       if (allowedRoles && allowedRoles.includes(userRole)) {
         return true;
       } else {
@@ -43,9 +42,9 @@ export class AuthGuard implements CanActivate {
   }
 
   messageInfo(): void {
-    this.modal.info({
+    this.modal.error({
       nzTitle: 'Acesso negado!',
-      nzContent: 'Você não tem acesso.',
+      nzContent: 'Você não tem permissão para acessar aquela página.',
       nzOnOk: () => {}
     });
   }

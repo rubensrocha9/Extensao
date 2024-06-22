@@ -8,10 +8,10 @@ import { EmployeeProfileService } from '../../../core/service/employee-profile.s
 import { EmployeeService } from '../../../core/service/employee.service';
 import { StorageService } from '../../../core/service/storage.service';
 import { RoleType } from '../../../shared/enum/role.enum';
-import { Feedback } from '../../../shared/models/employee';
 import { LoaderService } from '../../../shared/service/loader.service';
 import { ModalService } from '../../../shared/service/modal.service';
 import { SharedModuleModule } from '../../../shared/shared-module/shared-module.module';
+import { Feedback } from './../../../shared/models/employee';
 
 @Component({
   selector: 'app-employee-profile',
@@ -26,6 +26,7 @@ export class EmployeeProfileComponent {
   form!: FormGroup;
   companyId: number = 0;
   employeeId: number = 0;
+  visibleDrawer: boolean = false;
 
   name: string = '';
   documentNumber: string = '';
@@ -47,6 +48,7 @@ export class EmployeeProfileComponent {
   country: string = '';
   zipCode: string = '';
   imgUrl: string = '';
+  feedbacks: Feedback[] = [];
 
   companyName: string = '';
   companyDocumentNumber: string = '';
@@ -118,6 +120,7 @@ export class EmployeeProfileComponent {
       this.position = employee.positionName;
       this.documentNumber = employee.documentNumber;
       this.phoneNumber = employee.phoneNumber;
+      this.countryCode = employee.countryCode;
       this.role = employee.role;
       this.birthDate = employee.birthDate;
       this.entryDate = employee.entryDate;
@@ -144,9 +147,20 @@ export class EmployeeProfileComponent {
       this.companyState = company.address.state;
       this.companyCountry = company.address.country;
       this.companyZipCode = company.address.zipCode;
+
+      this.getFeedbackHistory();
     }, error => {
         LoaderService.toggle({ show: false });
         this.notificationService.modalLoadDataError(error);
+    });
+  }
+
+  getFeedbackHistory(): void {
+    this.employeeProfileService.getFeedbackHistory(this.companyId, this.employeeId).pipe(take(1)).subscribe(
+      data => {
+        this.feedbacks = data;
+    }, error => {
+      this.notificationService.modalLoadDataError(error);
     });
   }
 
@@ -163,7 +177,9 @@ export class EmployeeProfileComponent {
     if (this.form.get('feedback')?.value !== null && this.form.get('feedback')?.value !== '') {
       this.employeeProfileService.createFeedback(this.companyId, this.employeeId, feedback).pipe(take(1)).subscribe(
         data => {
-
+          this.message.success('Feedback enviado com sucesso.', { nzDuration: 3000 });
+          this.getFeedbackHistory();
+          this.form.reset();
         }, error => {
           this.notificationService.modalLoadDataError(error);
       });
@@ -181,7 +197,7 @@ export class EmployeeProfileComponent {
       if (file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg') {
         this.message.error('O tipo de arquivo enviado não é permitido.', { nzDuration: 3000 });
       } else {
-        this.companyService.sendAttachment(this.companyId, file).pipe(take(1)).subscribe(
+        this.employeeProfileService.sendAttachment(this.employeeId, file).pipe(take(1)).subscribe(
           data => {
             this.imgUrl = data.imgUrl;
             this.message.success('Imagem do perfil foi alterada com sucesso.', { nzDuration: 3000 });
@@ -190,6 +206,14 @@ export class EmployeeProfileComponent {
         });
       }
     }
+  }
+
+  showFeedbackHistory(): void {
+    this.visibleDrawer = true;
+  }
+
+  close(): void {
+    this.visibleDrawer = false;
   }
 
 }

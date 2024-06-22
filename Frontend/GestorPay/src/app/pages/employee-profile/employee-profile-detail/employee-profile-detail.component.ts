@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { take } from 'rxjs';
+import { EmployeeProfileService } from '../../../core/service/employee-profile.service';
 import { EmployeeService } from '../../../core/service/employee.service';
 import { PositionService } from '../../../core/service/position.service';
 import { StorageService } from '../../../core/service/storage.service';
@@ -15,21 +16,19 @@ import { ModalService } from '../../../shared/service/modal.service';
 import { SharedModuleModule } from '../../../shared/shared-module/shared-module.module';
 
 @Component({
-  selector: 'app-employee-detail',
+  selector: 'app-employee-profile-detail',
   standalone: true,
   imports: [SharedModuleModule],
-  templateUrl: './employee-detail.component.html',
-  styleUrl: './employee-detail.component.scss'
+  templateUrl: './employee-profile-detail.component.html',
+  styleUrl: './employee-profile-detail.component.scss'
 })
-export class EmployeeDetailComponent implements OnInit {
+export class EmployeeProfileDetailComponent implements OnInit {
 
-  headerTitle: string = '';
   form!: FormGroup;
   formAddress!: FormGroup;
   companyId: number = 0;
   employeeId: number = 0;
   positions: Position[] = [];
-  entryDateValidation!: Date;
 
   constructor(
     private router: Router,
@@ -38,9 +37,10 @@ export class EmployeeDetailComponent implements OnInit {
     private message: NzMessageService,
     private storageService: StorageService,
     private activatedRoute: ActivatedRoute,
-    private employeeService: EmployeeService,
     private positionService: PositionService,
+    private employeeService: EmployeeService,
     private notificationService: ModalService,
+    private employeeProfileService: EmployeeProfileService,
   ) {
     this.form = this.formBuilder.group({
       name: [null , [Validators.required]],
@@ -53,7 +53,6 @@ export class EmployeeDetailComponent implements OnInit {
       countryCode: ['BR' , [Validators.required]],
       email: [null , [Validators.required, Validators.email]],
       entryDate: [null , [Validators.required]],
-      departureDate: [null],
     });
 
     this.formAddress = this.formBuilder.group({
@@ -78,12 +77,14 @@ export class EmployeeDetailComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
         this.employeeId = params['id'];
         if (this.employeeId > 0) {
-          this.headerTitle = 'Editar Funcionário';
           this.getEmployeeId();
-        } else {
-        this.headerTitle = 'Cadastrar Funcionário';
-      }
+        }
     });
+
+    this.form.get('positionId')?.disable();
+    this.form.get('email')?.disable();
+    this.form.get('amount')?.disable();
+    this.form.get('entryDate')?.disable();
 
     this.getpostions();
   }
@@ -100,7 +101,6 @@ export class EmployeeDetailComponent implements OnInit {
           amount: data.amount,
           email: data.email,
           entryDate: data.entryDate,
-          departureDate: data.departureDate,
           documentNumber: data.documentNumber,
           gender: data.gender,
           phoneNumber: data.phoneNumber,
@@ -144,30 +144,16 @@ export class EmployeeDetailComponent implements OnInit {
         address: address
       }
 
-      if (this.employeeId > 0) {
-        LoaderService.toggle({ show: true });
-        this.employeeService.update(this.companyId, this.employeeId, expense).pipe(take(1)).subscribe(
-          data => {
-            LoaderService.toggle({ show: false });
-            this.message.success('Funcionário atualizado com sucesso!', { nzDuration: 3000 });
-            this.router.navigateByUrl('employee');
-          }, error => {
-            LoaderService.toggle({ show: false });
-            this.notificationService.modalLoadDataError(error);
-        });
-
-      } else {
-        LoaderService.toggle({ show: true });
-        this.employeeService.create(this.companyId, expense).pipe(take(1)).subscribe(
-          data => {
-            LoaderService.toggle({ show: false });
-            this.message.success('Funcionário criado com sucesso!', { nzDuration: 3000 });
-            this.router.navigateByUrl('employee');
-          }, error => {
-            LoaderService.toggle({ show: false });
-            this.notificationService.modalLoadDataError(error);
-        });
-      }
+      LoaderService.toggle({ show: true });
+      this.employeeProfileService.update(this.companyId, this.employeeId, expense).pipe(take(1)).subscribe(
+        data => {
+          LoaderService.toggle({ show: false });
+          this.message.success('Dados atualizado com sucesso!', { nzDuration: 3000 });
+          this.router.navigateByUrl('employee-profile');
+        }, error => {
+          LoaderService.toggle({ show: false });
+          this.notificationService.modalLoadDataError(error);
+      });
     } else {
       this.message.warning('Existem campos a serem preenchidos.', { nzDuration: 3000 });
     }
@@ -176,7 +162,7 @@ export class EmployeeDetailComponent implements OnInit {
   onBack(): void {
     this.modal.confirm({
       nzTitle: '<i>Certeza que deseja voltar?</i>',
-      nzOnOk: () => this.router.navigateByUrl('employee')
+      nzOnOk: () => this.router.navigateByUrl('employee-profile')
     });
   }
 
@@ -190,7 +176,6 @@ export class EmployeeDetailComponent implements OnInit {
       amount: formValues.amount,
       email: formValues.email,
       entryDate: formValues.entryDate,
-      departureDate: formValues.departureDate,
       documentNumber: formValues.documentNumber,
       gender: formValues.gender,
       phoneNumber: formValues.phoneNumber,

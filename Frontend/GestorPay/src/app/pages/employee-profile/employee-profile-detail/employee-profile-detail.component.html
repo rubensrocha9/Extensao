@@ -1,14 +1,6 @@
 <div>
-  <h2 style="text-transform: uppercase;">{{ headerTitle }}</h2>
+  <h2 style="text-transform: uppercase;">Editar Dados</h2>
   <nz-divider></nz-divider>
-</div>
-<div style="margin-bottom: 20px;">
-  <h3>Dados do Funcionário</h3>
-  <nz-tag [nzColor]="'orange'">
-    Obs.: Para mudar o estado do funcionário para <b>Desligado</b>, basta adicionar uma data de saída que o estado do funcionário será alterado e não conseguirá ter mais acesso ao perfil dele.<br>
-    Ao finalizar o cadastro, o funcionário irá receber um e-mail para finalizar o cadastro, então informe um e-mail válido.
-  </nz-tag><br><br>
-  <span style="color: red;">*</span><span> Campos obrigatórios</span>
 </div>
 
 <form nz-form [formGroup]="form" nzLayout="vertical">
@@ -109,14 +101,6 @@
           <nz-form-label nzRequired nzFor="entryDate">Data de Entrada</nz-form-label>
             <nz-form-control nzErrorTip="Por favor informe a data de Entrada do funcionário">
               <nz-date-picker style="width: 100%;" formControlName="entryDate" [nzDisabledDate]="disabledDate" [nzFormat]="'dd/MM/yyyy'" nzPlaceHolder="Data de Entrada"></nz-date-picker>
-            </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col nzSpan="6">
-        <nz-form-item>
-          <nz-form-label nzFor="departureDate">Data de Saída</nz-form-label>
-            <nz-form-control nzErrorTip="Por favor informe a data de Saída do funcionário">
-              <nz-date-picker style="width: 100%;" formControlName="departureDate" [nzDisabledDate]="disabledDate" [nzFormat]="'dd/MM/yyyy'" nzPlaceHolder="Data de Saída"></nz-date-picker>
             </nz-form-control>
         </nz-form-item>
       </div>

@@ -16,15 +16,17 @@
     <input #fileInput type="file" accept="image/png, image/jpeg, image/jpg" style="display: none;" (change)="onFileSelected($event)" />
   </div>
 
-
   <div nz-col nzSpan="20">
 
     <div nz-row [nzGutter]="{ xs: 4, sm: 4, md: 8, lg: 8, xl: 16, xxl: 16 }" style="display: flex;">
-      <div nz-col nzSpan="20">
+      <div nz-col nzSpan="18">
         <h2 style="text-transform: uppercase;">{{ name }}</h2>
       </div>
+      <div nz-col nzSpan="2">
+        <button nz-button nzSize="small" nzShape="round" nzType="default" (click)="showFeedbackHistory()">Histórico</button>
+      </div>
       <div nz-col nzSpan="4">
-        <button style="float: right;" nz-button nzSize="small" nzShape="round" nzType="default" (click)="onEdit()">Editar Perfil</button>
+        <button nz-button nzSize="small" nzShape="round" nzType="default" (click)="onEdit()">Editar Perfil</button>
       </div>
     </div>
     <div style="margin-bottom: 20px;">
@@ -34,8 +36,25 @@
   </div>
 </div>
 
-<nz-divider></nz-divider>
+<nz-drawer
+nzSize="large"
+[nzVisible]="visibleDrawer"
+nzPlacement="right"
+nzTitle="Histórico de Feedback"
+(nzOnClose)="close()"
+>
+  <ng-container *nzDrawerContent>
+    <ng-container *ngFor="let feedback of feedbacks">
+      <nz-comment [nzAuthor]="name" [nzDatetime]="(feedback.creationDate | date: 'dd/MM/yyyy HH:mm:ss') ?? ''">
+        <nz-comment-content>
+          <p>{{ feedback.feedback }}</p>
+        </nz-comment-content>
+      </nz-comment>
+    </ng-container>
+  </ng-container>
+</nz-drawer>
 
+<nz-divider></nz-divider>
 
   <nz-tabset nzTabPosition="left">
     <nz-tab *ngFor="let tab of tabs" [nzTitle]="titleTemplate">

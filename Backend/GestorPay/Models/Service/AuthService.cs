@@ -58,7 +58,7 @@ namespace GestorPay.Models.Service
             if (authEntityCompany == null)
             {
                 var employee = await _repository.Select<Employee>()
-                    .Where(p => p.Email == createAuth.Email &&
+                    .Where(p => p.Email == createAuth.Email && p.Status != EmployeeStatusType.Disconnected &&
                                 !p.IsRemoved)
                     .FirstOrDefaultAsync();
 
