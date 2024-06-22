@@ -1,3 +1,5 @@
+import { Feedback } from "./employee";
+
 export interface Dashboard {
   employeeWithHighestAmountName: string;
   employeeWithHighestAmount: number;
@@ -10,4 +12,12 @@ export interface Dashboard {
   employeeAmount: number;
   amount: number;
   accumulatedAmount: number;
+}
+
+export interface FeedbackWithAttachmentDTO {
+  employeeId: number;
+  companyId: number;
+  feedback: Feedback[];
+  imgUrl: string;
+  name: string;
 }

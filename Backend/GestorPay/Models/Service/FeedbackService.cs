@@ -19,6 +19,46 @@ namespace GestorPay.Models.Service
             _notificationService = notificationService;
         }
 
+        public async Task<FeedbackWithAttachmentDTO> GetEmployeeAllFeedbackAsync(int companyId)
+        {
+            var company = await _repository.Select<Company>()
+                .Where(p => p.Id == companyId && !p.IsRemoved)
+                .AsNoTracking()
+                .AnyAsync();
+
+            if (!company)
+            {
+                var validationMessage = _notificationService.GetValidationMessage(ValidationType.EmployeeNotFound, HttpStatusCode.NotFound);
+                throw new CustomException(validationMessage.Message, validationMessage.StatusCode);
+            }            
+
+            var feedbacks = await _repository.Select<Employee>()
+                .Include(p => p.EmployeeFeedback)
+                .Include(p => p.Attachment)
+                .Where(p => p.CompanyId == companyId && !p.IsRemoved)
+                .Select(p => new FeedbackWithAttachmentDTO
+                {
+                    CompanyId = p.CompanyId,
+                    EmployeeId = p.Id,
+                    Name = p.Name,
+                    Feedback = p.EmployeeFeedback
+                        .Where(f => !f.IsRemoved)
+                        .Select(f => new FeedbackDTO
+                        {                            
+                            EmployeeId = f.EmployeeId,
+                            CompanyId = companyId,
+                            Feedback = f.Feedback,
+                            CreationDate = f.CreationDate
+                        })
+                        .ToList(),
+                    ImgUrl = p.Attachment != null ? "data:" + p.Attachment.ContentType + ";base64," + p.Attachment.Base64 : null,
+                })
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+
+            return feedbacks;
+        }
+
         public async Task<List<FeedbackDTO>> GetFeedbackHistory(int companyId, int employeeId)
         {
             var employee = await _repository.Select<Employee>()

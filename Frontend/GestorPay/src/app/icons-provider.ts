@@ -9,6 +9,7 @@ import {
   EyeOutline,
   FormOutline,
   IdcardOutline,
+  LikeOutline,
   LockOutline,
   LogoutOutline,
   MailOutline,
@@ -25,6 +26,7 @@ import {
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 const icons = [
+  LikeOutline,
   MailOutline,
   EyeInvisibleOutline,
   EyeOutline,
