@@ -12,6 +12,24 @@ export interface Dashboard {
   employeeAmount: number;
   amount: number;
   accumulatedAmount: number;
+  accumulatedExpenses: AccumulatedExpensesDashboard[];
+  totalSpendingAmount: SpendingDashboard[]
+  monthlyExpense: ExpensesDashboard[];
+}
+
+export interface ExpensesDashboard
+{
+  employeeAmount: number;
+}
+
+export interface SpendingDashboard
+{
+  amount: number;
+}
+
+export interface AccumulatedExpensesDashboard
+{
+ accumulatedAmount: number;
 }
 
 export interface FeedbackWithAttachmentDTO {

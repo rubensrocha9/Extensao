@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HighchartsChartModule } from 'highcharts-angular';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { DocumentPipePipe } from '../../core/pipes/document-pipe.pipe';
 import { PhoneNumberPipe } from '../../core/pipes/phone-number.pipe';
 import { LoaderComponent } from '../components/loader/loader.component';
 import { ZorroModule } from './zorro.module';
-
-
 
 @NgModule({
   declarations: [],
@@ -23,7 +22,9 @@ import { ZorroModule } from './zorro.module';
 
     LoaderComponent,
     DocumentPipePipe,
-    PhoneNumberPipe
+    PhoneNumberPipe,
+
+    HighchartsChartModule
   ],
   exports: [
     CommonModule,
@@ -37,7 +38,9 @@ import { ZorroModule } from './zorro.module';
 
     LoaderComponent,
     DocumentPipePipe,
-    PhoneNumberPipe
+    PhoneNumberPipe,
+
+    HighchartsChartModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

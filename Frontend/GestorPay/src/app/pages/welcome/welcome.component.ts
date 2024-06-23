@@ -1,18 +1,19 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import * as Highcharts from 'highcharts';
+import HC_accessibility from 'highcharts/modules/accessibility';
 import { take } from 'rxjs';
 import { DashboardService } from '../../core/service/dashboard.service';
 import { StorageService } from '../../core/service/storage.service';
 import { LoaderService } from '../../shared/service/loader.service';
 import { ModalService } from '../../shared/service/modal.service';
+import { SharedModuleModule } from '../../shared/shared-module/shared-module.module';
+HC_accessibility(Highcharts);
+
 
 @Component({
   selector: 'app-welcome',
   standalone: true,
-  imports: [CommonModule, NzStatisticModule, NzGridModule, NzCardModule],
+  imports: [SharedModuleModule],
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss']
 })
@@ -29,8 +30,61 @@ export class WelcomeComponent implements OnInit {
   employeeAmount: number = 0;
   amount: number = 0;
   accumulatedAmount: number = 0;
+  accumulatedExpenses: number[] = [];
+  totalSpendingAmount: number[] = [];
+  monthlyExpense: number[] = [];
 
   companyId: number = 0;
+  year = new Date().getFullYear();
+
+  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Highcharts.Options = {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: `Gastos Mensais - ${this.year}`
+    },
+    xAxis: {
+      categories: [
+        'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun',
+        'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+      ],
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: 'Reais (R$)'
+      }
+    },
+    tooltip: {
+      valuePrefix: 'R$ '
+    },
+    plotOptions: {
+      column: {
+        pointPadding: 0.2,
+        borderWidth: 0
+      }
+    },
+    series: [
+      {
+        type: 'column',
+        name: 'Gastos Com salário',
+        data: []
+      },
+      {
+        type: 'column',
+        name: 'Gasto com Contratação de funcionários',
+        data: []
+      },
+      {
+        type: 'column',
+        name: 'Gastos Totais',
+        data: []
+      },
+    ]
+  };
+	chartUpdateFlag = false;
 
   constructor(
     private storageService: StorageService,
@@ -65,7 +119,28 @@ export class WelcomeComponent implements OnInit {
         this.employeeAmount = data.employeeAmount;
         this.amount = data.amount;
         this.accumulatedAmount = data.accumulatedAmount;
+        this.accumulatedExpenses = data.accumulatedExpenses.map(item => item.accumulatedAmount);
+        this.totalSpendingAmount = data.totalSpendingAmount.map(item => item.amount);
+        this.monthlyExpense = data.monthlyExpense.map(item => item.employeeAmount);
 
+        this.chartOptions.series = [
+          {
+            type: 'column',
+            name: 'Gastos Com salário',
+            data: this.accumulatedExpenses
+          },
+          {
+            type: 'column',
+            name: 'Gasto com Contratação de funcionários',
+            data: this.monthlyExpense
+          },
+          {
+            type: 'column',
+            name: 'Gastos Totais',
+            data: this.totalSpendingAmount
+          }
+        ]
+        this.chartUpdateFlag = true;
       }, error => {
         LoaderService.toggle({ show: false });
         this.notificationService.modalLoadDataError(error);
