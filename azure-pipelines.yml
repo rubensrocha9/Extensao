@@ -55,3 +55,25 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'Backend'
     publishLocation: 'Container'
+
+- task: NodeTool@0
+  inputs:
+    versionSource: 'spec'
+    versionSpec: '21.3.x'
+    
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'Frontend/GestorPay'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Frontend/GestorPay'
+    customCommand: 'run build-dev-server'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'Frontend'
+    publishLocation: 'Container'
