@@ -133,6 +133,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     NzUploadModule,
     NzWaveModule,
     NzResizableModule,
+    NzIconModule
   ],
   exports: [
     NzAffixModule,
@@ -198,6 +199,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     NzUploadModule,
     NzWaveModule,
     NzResizableModule,
+    NzIconModule
   ]
 })
 export class ZorroModule { }

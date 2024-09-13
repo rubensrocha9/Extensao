@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HighchartsChartModule } from 'highcharts-angular';
+import { IconModule } from '@ant-design/icons-angular';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { DocumentPipePipe } from '../../core/pipes/document-pipe.pipe';
 import { PhoneNumberPipe } from '../../core/pipes/phone-number.pipe';
@@ -14,6 +14,7 @@ import { ZorroModule } from './zorro.module';
     CommonModule,
     NgxMaskDirective,
     NgxMaskPipe,
+    IconModule,
 
     ReactiveFormsModule,
     FormsModule,
@@ -22,9 +23,7 @@ import { ZorroModule } from './zorro.module';
 
     LoaderComponent,
     DocumentPipePipe,
-    PhoneNumberPipe,
-
-    HighchartsChartModule
+    PhoneNumberPipe
   ],
   exports: [
     CommonModule,
@@ -39,8 +38,6 @@ import { ZorroModule } from './zorro.module';
     LoaderComponent,
     DocumentPipePipe,
     PhoneNumberPipe,
-
-    HighchartsChartModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
