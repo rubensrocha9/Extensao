@@ -48,29 +48,16 @@ builder.Services.AddAuthentication().AddJwtBearer(opt =>
     };
 });
 
-builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+builder.Services.AddCors(options =>
 {
-    builder.SetPreflightMaxAge(TimeSpan.FromMinutes(30));
-    builder.SetIsOriginAllowed(p => _ = true);
-    builder.WithMethods(
-                    "OPTIONS",
-                    "GET",
-                    "POST",
-                    "PUT",
-                    "DELETE");
-
-    builder.WithHeaders(
-        "content-type",
-        "content-disposition",
-        "authorization",
-        "pragma",
-        "accept",
-        "x-skip-interceptor",
-        "x-skip-interceptor-un",
-        "TE");
-
-    builder.AllowAnyOrigin();
-}));
+    options.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.WithOrigins("https://gestor-pay.vercel.app/login")
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials();
+    });
+});
 
 
 var app = builder.Build();
