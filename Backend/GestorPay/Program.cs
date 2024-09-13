@@ -48,16 +48,30 @@ builder.Services.AddAuthentication().AddJwtBearer(opt =>
     };
 });
 
-builder.Services.AddCors(options =>
+builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
 {
-    options.AddPolicy("_AngularApp", policy =>
-    {
-        policy.WithOrigins("http://localhost:4200", "https://localhost:7099")
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
-    });
-});
+    builder.SetPreflightMaxAge(TimeSpan.FromMinutes(30));
+    builder.SetIsOriginAllowed(p => _ = true);
+    builder.WithMethods(
+                    "OPTIONS",
+                    "GET",
+                    "POST",
+                    "PUT",
+                    "DELETE");
+
+    builder.WithHeaders(
+        "content-type",
+        "content-disposition",
+        "authorization",
+        "pragma",
+        "accept",
+        "x-skip-interceptor",
+        "x-skip-interceptor-un",
+        "TE");
+
+    builder.AllowAnyOrigin();
+}));
+
 
 var app = builder.Build();
 
@@ -110,7 +124,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseCors("_AngularApp");
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
