@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  host: 'https://localhost:7296/api',
+  host: 'https://gestorpayapi-cqchdgbydnhuabec.centralus-01.azurewebsites.net/',
 };
