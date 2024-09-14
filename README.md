@@ -22,7 +22,7 @@ Acesse Nossa [Página](https://rubensrocha9.github.io/static-page-extensao/).
 
 Para mais informações, visite o [site oficial](https://sites.google.com/view/gestorpay/p%C3%A1gina-inicial).
 
-# Rodar Aplicação no Visual Code - Api
+# Rodar Aplicação no Visual Code - Api .Net8
 
 Para realizar algumas funções tera que fazer algumas configurações, como para realizar o envio de email tera que configurar no appsettigns da aplicação o envio de email, informando os dados necessários e para salvar os dados terá que adicionar um string de conexão 
 
