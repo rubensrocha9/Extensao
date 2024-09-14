@@ -25,9 +25,14 @@ Para mais informações, visite o [site oficial](https://sites.google.com/view/g
 # Rodar Aplicação no Visual Code - Api
 
 Para realizar algumas funções tera que fazer algumas configurações, como para realizar o envio de email tera que configurar no appsettigns da aplicação o envio de email, informando os dados necessários e para salvar os dados terá que adicionar um string de conexão 
+
 Lembrando que o projeto foi poensado em salvar os dado no SQL Server
+![image](https://github.com/user-attachments/assets/2f2b2363-796c-4fa6-8628-35ed47c5a9b9)
+
 
 Config Envio de Email
+![image](https://github.com/user-attachments/assets/e35d9c61-6589-4ed8-940e-9aefbde10c74)
+
 
 # Rodar Aplicação Front - Angular
 
